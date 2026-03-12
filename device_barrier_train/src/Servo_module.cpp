@@ -1,0 +1,28 @@
+#include "Servo_module.h"
+#include "global.h"
+
+Servo barrierServo;
+
+void initServo() {
+  barrierServo.attach(SERVO_PIN);
+  openBarrier(); // Ensure the barrier starts in the closed position
+}
+
+void openBarrier() {
+  barrierServo.write(90); // Adjust angle as needed for your servo
+}
+
+void closeBarrier() {
+  barrierServo.write(0); // Adjust angle as needed for your servo
+}
+
+void servoTask(void *parameter) {
+  while (true) {
+    if (motionDetected) {
+      closeBarrier();
+    } else {
+      openBarrier();
+    }
+    vTaskDelay(250 / portTICK_PERIOD_MS); // Check every 250 ms
+  }
+}
