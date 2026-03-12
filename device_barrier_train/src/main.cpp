@@ -1,4 +1,7 @@
 #include <Arduino.h>
+#include "global.h"
+#include "motion_sensor_module.h"
+#include "Servo_module.h"
 
 // put function declarations here:
 int myFunction(int, int);
@@ -6,6 +9,14 @@ int myFunction(int, int);
 void setup() {
   // put your setup code here, to run once:
   int result = myFunction(2, 3);
+
+  Serial.begin(115200);
+
+  initMotionSensor();
+  initServo();
+
+  xTaskCreate(motionSensorTask, "Motion Sensor Task", 2048, NULL, 1, NULL);
+  xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);
 }
 
 void loop() {
