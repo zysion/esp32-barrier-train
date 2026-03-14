@@ -1,7 +1,4 @@
-#include <Arduino.h>
 #include "global.h"
-#include "motion_sensor_module.h"
-#include "Servo_module.h"
 
 // put function declarations here:
 int myFunction(int, int);

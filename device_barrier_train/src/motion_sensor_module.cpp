@@ -1,4 +1,3 @@
-#include "motion_sensor_module.h"
 #include "global.h"
 
 extern bool motionDetected = false;

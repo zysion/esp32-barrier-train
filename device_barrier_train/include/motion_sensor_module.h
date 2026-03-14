@@ -1,7 +1,8 @@
 #ifndef MOTION_SENSOR_MODULE_H
 #define MOTION_SENSOR_MODULE_H
 
-#include <Arduino.h>
+#include <global.h>
+
 
 #define MOTION_SENSOR_PIN 36
 void initMotionSensor();

@@ -46,6 +46,10 @@ h2 {
     margin-bottom: 15px;
 }
 
+.control-group.disabled {
+    opacity: 0.5;
+}
+
 .switch-label {
     font-weight: bold;
 }
@@ -96,6 +100,11 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+.switch input:disabled + .slider {
+    cursor: not-allowed;
+    background-color: #bdbdbd;
 }
 
 .status-item {

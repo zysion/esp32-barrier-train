@@ -1,4 +1,3 @@
-#include "Servo_module.h"
 #include "global.h"
 
 Servo barrierServo;

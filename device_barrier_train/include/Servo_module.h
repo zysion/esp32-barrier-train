@@ -1,8 +1,9 @@
 #ifndef SERVO_MODULE_H
 #define SERVO_MODULE_H
 
+#include <global.h>
 #include <Arduino.h>
-#include <Servo.h>
+
 
 #define SERVO_PIN 37
 
