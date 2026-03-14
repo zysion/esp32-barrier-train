@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Barrier Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <h1>barrier management</h1>
+        
+        <div class="panel controls">
+            <h2>controls</h2>
+            <div class="control-group">
+                <label class="switch-label">AUTO MODE</label>
+                <label class="switch">
+                    <input type="checkbox" id="autoModeToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="control-group">
+                <label class="switch-label">Barrier Status (Open/Close)</label>
+                <label class="switch">
+                    <input type="checkbox" id="barrierToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="panel status">
+            <h2>Current Status</h2>
+            <div class="status-item">
+                Barrier Status: <span id="barrierStatus" class="status-badge closed">Closed</span>
+            </div>
+            <div class="status-item" id="trespassAlertContainer">
+                Trespassing Alert: <span id="trespassAlert" class="alert-badge safe">Safe</span>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
