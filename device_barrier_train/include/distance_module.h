@@ -3,7 +3,6 @@
 
 #include "global.h"
 
-void initDistanceModule();
 void distanceMeasurementTask(void *parameter);
 
 #endif // DISTANCE_MODULE_H
