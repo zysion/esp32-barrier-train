@@ -15,6 +15,7 @@ void setup() {
 
   xTaskCreate(motionSensorTask, "Motion Sensor Task", 2048, NULL, 1, NULL);
   xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);
+  xTaskCreate(distanceMeasurementTask, "Distance Measurement Task", 2048, NULL, 1, &distanceMeasurementTaskHandle);
 }
 
 void loop() {

@@ -9,10 +9,12 @@ void initServo() {
 
 void openBarrier() {
   barrierServo.write(90); // Adjust angle as needed for your servo
+  vTaskSuspend(distanceMeasurementTaskHandle); // Suspend this task until motion is detected again
 }
 
 void closeBarrier() {
   barrierServo.write(0); // Adjust angle as needed for your servo
+  vTaskResume(distanceMeasurementTaskHandle); // Resume distance measurement when motion is detected
 }
 
 void servoTask(void *parameter) {
