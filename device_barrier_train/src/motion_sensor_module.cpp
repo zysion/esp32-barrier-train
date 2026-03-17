@@ -1,6 +1,6 @@
 #include "global.h"
 
-extern bool motionDetected = false;
+bool motionDetected = false;
 
 void initMotionSensor() {
   pinMode(MOTION_SENSOR_PIN, INPUT);
