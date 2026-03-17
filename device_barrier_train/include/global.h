@@ -7,6 +7,8 @@
 #include <Servo.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include <ArduinoJson.h>
+#include <ESPAsyncWebServer.h>
 
 extern bool motionDetected;
 
@@ -19,5 +21,7 @@ extern bool motionDetected;
 #include "ledblinky.h"
 #include "LED_RGB.h"
 #include "distance_module.h"
+
+
 
 #endif // GLOBAL_H

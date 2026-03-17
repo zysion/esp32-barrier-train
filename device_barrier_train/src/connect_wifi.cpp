@@ -1,4 +1,4 @@
-#include "connect_wifi.h"
+#include <global.h>
 
 void connectWiFi(const char* ssid, const char* password) {
     WiFi.mode(WIFI_STA);
