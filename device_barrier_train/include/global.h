@@ -13,7 +13,19 @@
 #include <ArduinoJson.h>
 #include <ESPAsyncWebServer.h>
 
+// Define global variables and constants here
+
+// motion sensor
 extern bool motionDetected;
+#define MOTION_SENSOR_PIN 36
+
+// distance sensor
+extern TaskHandle_t distanceMeasurementTaskHandle;
+extern float distance;
+#define TRIGGER_PIN 41
+#define ECHO_PIN 42
+
+//-------------------------------------------------------------------------
 
 //include module
 #include "motion_sensor_module.h"
@@ -21,9 +33,9 @@ extern bool motionDetected;
 #include "webserver.h"
 #include "connect_wifi.h"
 #include "LCD_module.h"
-#include "ledblinky.h"
 #include "LED_RGB.h"
 #include "distance_module.h"
+#include "alert_module.h"
 
 
 
