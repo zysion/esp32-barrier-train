@@ -5,6 +5,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Servo.h>
+#include <HCSR04.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
