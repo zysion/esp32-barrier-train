@@ -3,7 +3,6 @@
 
 #include <global.h>
 
-#define MOTION_SENSOR_PIN 36
 void initMotionSensor();
 bool isMotionDetected();
 void motionSensorTask(void *parameter);
