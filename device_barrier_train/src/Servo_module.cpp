@@ -9,6 +9,9 @@ void initServo() {
 
 void openBarrier() {
   barrierServo.write(90); // Adjust angle as needed for your servo
+
+  digitalWrite(BUZZER_PIN, LOW);   // Shut down all when barrier is opened
+  digitalWrite(ALERT_LED_PIN, LOW);
   vTaskSuspend(distanceMeasurementTaskHandle); // Suspend this task until motion is detected again
 }
 
