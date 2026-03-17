@@ -11,6 +11,7 @@ void setup() {
 
   initMotionSensor();
   initServo();
+  initI2C();
 
   xTaskCreate(motionSensorTask, "Motion Sensor Task", 2048, NULL, 1, NULL);
   xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);

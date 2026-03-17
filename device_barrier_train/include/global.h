@@ -6,8 +6,12 @@
 #include <PubSubClient.h>
 #include <Servo.h>
 #include <HCSR04.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include <ArduinoJson.h>
+#include <ESPAsyncWebServer.h>
 
 extern bool motionDetected;
 
@@ -20,5 +24,7 @@ extern bool motionDetected;
 #include "ledblinky.h"
 #include "LED_RGB.h"
 #include "distance_module.h"
+
+
 
 #endif // GLOBAL_H
