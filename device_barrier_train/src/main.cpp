@@ -11,10 +11,13 @@ void setup() {
 
   initMotionSensor();
   initServo();
+  initDistanceModule();
   initI2C();
 
   xTaskCreate(motionSensorTask, "Motion Sensor Task", 2048, NULL, 1, NULL);
   xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);
+  xTaskCreate(distanceMeasurementTask, "Distance Task", 2048, NULL, 1, &distanceMeasurementTaskHandle);
+  xTaskCreate(alertTask, "Alert Task", 4096, NULL, 1, NULL);
 }
 
 void loop() {

@@ -25,6 +25,14 @@ extern float distance;
 #define TRIGGER_PIN 41
 #define ECHO_PIN 42
 
+// Alert & Buzzer
+#define ALERT_LED_PIN 38
+#define BUZZER_PIN 39
+#define UNKNOWN -1 
+#define SAFE 0 // asian pro max
+#define DANGER 1 // 5 - 10
+#define ALERT 2 // duoi 5
+
 //-------------------------------------------------------------------------
 
 //include module
