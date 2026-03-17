@@ -5,6 +5,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Servo.h>
+#include <HCSR04.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include "freertos/FreeRTOS.h"
