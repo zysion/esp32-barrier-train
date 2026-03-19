@@ -1,13 +1,8 @@
 #include "global.h"
 
-// put function declarations here:
-int myFunction(int, int);
-
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
-
   Serial.begin(115200);
+  Wire.begin(I2C_SDA, I2C_SCL); // Initialize I2C before LCD
 
   initMotionSensor();
   initServo();
@@ -16,15 +11,14 @@ void setup() {
 
   xTaskCreate(motionSensorTask, "Motion Sensor Task", 2048, NULL, 1, NULL);
   xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);
-  xTaskCreate(distanceMeasurementTask, "Distance Task", 2048, NULL, 1, &distanceMeasurementTaskHandle);
-  xTaskCreate(alertTask, "Alert Task", 4096, NULL, 1, NULL);
+  xTaskCreate(distanceMeasurementTask, "Distance Task", 2048, NULL, 1, NULL);
+  xTaskCreate(alertTask, "Alert Task", 8192, NULL, 1, &alertTaskHandle);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  Serial.println("Distance: " + String(distance) + " cm");
+  Serial.println("Motion Detected: " + String(motionDetected ? "Yes" : "No"));
+  Serial.println("Barrier State: " + String(barrierServo.read() == 0 ? "Closed" : "Open"));
+  vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to prevent flooding
 }
