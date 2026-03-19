@@ -1,5 +1,7 @@
 #include "alert_module.h"
 
+TaskHandle_t alertTaskHandle = NULL;
+
 void initAlert() {
     pinMode(ALERT_LED_PIN, OUTPUT);
     pinMode(BUZZER_PIN, OUTPUT);
@@ -23,7 +25,7 @@ void alertTask(void *parameter) {
             }
             ledState = !ledState;
             digitalWrite(ALERT_LED_PIN, ledState ? HIGH : LOW);
-            vTaskDelay(500 / portTICK_PERIOD_MS);
+            vTaskDelay(125 / portTICK_PERIOD_MS);
         } else if (distance > 5.0f && distance < 10.0f) {
             if (currentState != DANGER) {
                 lcd.clear();
@@ -36,7 +38,7 @@ void alertTask(void *parameter) {
             }
             ledState = !ledState;
             digitalWrite(ALERT_LED_PIN, ledState ? HIGH : LOW);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(250 / portTICK_PERIOD_MS);
         } else {
             if (currentState != SAFE) {
                 lcd.clear();
@@ -45,6 +47,7 @@ void alertTask(void *parameter) {
             digitalWrite(BUZZER_PIN, LOW);
             digitalWrite(ALERT_LED_PIN, LOW);
             ledState = false;
+            vTaskDelay(100 / portTICK_PERIOD_MS);
         }
     }
 }
