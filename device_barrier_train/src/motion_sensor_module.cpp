@@ -1,6 +1,6 @@
 #include "global.h"
 
-bool motionDetected = false;
+volatile bool motionDetected = false;
 
 void initMotionSensor() {
   pinMode(MOTION_SENSOR_PIN, INPUT);
@@ -13,6 +13,6 @@ bool isMotionDetected() {
 void motionSensorTask(void *parameter) {
   while (true) {
     motionDetected = isMotionDetected();
-    vTaskDelay(250 / portTICK_PERIOD_MS); // Check every 250 ms
+    vTaskDelay(100 / portTICK_PERIOD_MS); // Check every 100 ms
   }
 }
