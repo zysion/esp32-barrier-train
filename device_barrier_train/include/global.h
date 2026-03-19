@@ -16,12 +16,11 @@
 // Define global variables and constants here
 
 // motion sensor
-extern bool motionDetected;
+extern volatile bool motionDetected;
 #define MOTION_SENSOR_PIN 36
 
 // distance sensor
-extern TaskHandle_t distanceMeasurementTaskHandle;
-extern float distance;
+extern volatile float distance;
 #define TRIGGER_PIN 41
 #define ECHO_PIN 42
 
@@ -32,6 +31,15 @@ extern float distance;
 #define SAFE 0 // asian pro max
 #define DANGER 1 // 5 - 10
 #define ALERT 2 // duoi 5
+extern TaskHandle_t alertTaskHandle;
+
+// Sensor
+#define SERVO_PIN 37
+extern Servo barrierServo;
+
+// LCD
+#define I2C_SDA 20
+#define I2C_SCL 21
 
 //-------------------------------------------------------------------------
 
