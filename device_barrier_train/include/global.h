@@ -16,6 +16,10 @@
 
 // Define global variables and constants here
 
+// define WiFi credentials
+#define SSID "TECNO POVA 6"
+#define PASSWORD "zysion123"
+
 // motion sensor
 extern volatile bool motionDetected;
 extern volatile bool isopenbarrier; //true for open, false for close
@@ -35,7 +39,7 @@ extern volatile float distance;
 #define ALERT 2 // duoi 5
 extern TaskHandle_t alertTaskHandle;
 
-// Sensor
+// SERVO
 #define SERVO_PIN 37
 extern Servo barrierServo;
 
