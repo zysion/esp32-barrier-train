@@ -22,6 +22,9 @@ void alertTask(void *parameter) {
                 lcd.print("LUI LAI");
                 currentState = ALERT;
                 digitalWrite(BUZZER_PIN, HIGH);
+
+                // Send DANGER alert via webserver
+                sendalertstatus_DANGER();
             }
             ledState = !ledState;
             digitalWrite(ALERT_LED_PIN, ledState ? HIGH : LOW);
@@ -35,6 +38,8 @@ void alertTask(void *parameter) {
                 lcd.print("DUNG LAI");
                 currentState = DANGER;
                 digitalWrite(BUZZER_PIN, LOW);
+                // Send DANGER alert via webserver
+                sendalertstatus_DANGER();
             }
             ledState = !ledState;
             digitalWrite(ALERT_LED_PIN, ledState ? HIGH : LOW);
@@ -43,6 +48,8 @@ void alertTask(void *parameter) {
             if (currentState != SAFE) {
                 lcd.clear();
                 currentState = SAFE;
+                // Send SAFE alert via webserver
+                sendalertstatus_SAFE();
             }
             digitalWrite(BUZZER_PIN, LOW);
             digitalWrite(ALERT_LED_PIN, LOW);

@@ -12,11 +12,13 @@
 #include "freertos/task.h"
 #include <ArduinoJson.h>
 #include <ESPAsyncWebServer.h>
+#include <LittleFS.h>
 
 // Define global variables and constants here
 
 // motion sensor
 extern volatile bool motionDetected;
+extern volatile bool isopenbarrier; //true for open, false for close
 #define MOTION_SENSOR_PIN 36
 
 // distance sensor
@@ -40,6 +42,9 @@ extern Servo barrierServo;
 // LCD
 #define I2C_SDA 20
 #define I2C_SCL 21
+
+// System mode
+extern volatile bool AUTO_mode; // false for manual, true for auto
 
 //-------------------------------------------------------------------------
 

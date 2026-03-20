@@ -17,7 +17,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  Serial.println("Distance: " + String(distance) + " cm");
+  if(motionDetected) Serial.println("Distance: " + String(distance) + " cm");
   Serial.println("Motion Detected: " + String(motionDetected ? "Yes" : "No"));
   Serial.println("Barrier State: " + String(barrierServo.read() == 0 ? "Closed" : "Open"));
   vTaskDelay(1000 / portTICK_PERIOD_MS); // Delay to prevent flooding
