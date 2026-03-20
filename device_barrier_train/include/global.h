@@ -11,8 +11,11 @@
 #include "freertos/task.h"
 #include <ArduinoJson.h>
 #include <ESPAsyncWebServer.h>
+#include <LittleFS.h>
 
 extern bool motionDetected;
+
+extern bool system_mode;
 
 //include module
 #include "motion_sensor_module.h"

@@ -4,6 +4,49 @@ const barrierStatus = document.getElementById('barrierStatus');
 const trespassAlert = document.getElementById('trespassAlert');
 const barrierControlGroup = barrierToggle.closest('.control-group');
 
+
+// websocket connection
+const ws = new WebSocket('ws://' + window.location.host + '/ws');
+
+ws.onopen = () => {
+    console.log('WebSocket connection established');
+}
+ws.onclose = () => {
+    console.log('WebSocket connection closed');
+}
+ws.onerror = (error) => {
+    console.error('WebSocket error:', error);
+}
+
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    const type = data.type;
+
+    if(type === 'barrierstatus') {
+        console.log('Received barrier status update:', data.value);
+        if(data.value === 'open') {
+            barrierStatus.textContent = 'Open';
+            barrierStatus.className = 'status-badge open';
+        } else {
+            barrierStatus.textContent = 'Closed';
+            barrierStatus.className = 'status-badge closed';
+        }
+    }
+    else if(type === 'trespass') {
+        console.log('Received trespass alert:', data.value);
+        if(data.value === 'trespass') {
+            trespassAlert.textContent = 'Have Trespassers!';
+            trespassAlert.className = 'alert-badge warning';
+        } else {
+            trespassAlert.textContent = 'Safe';
+            trespassAlert.className = 'alert-badge safe';
+        }
+    }
+}
+
+
+
+// logic function
 function setBarrierControlEnabled(isEnabled) {
     barrierToggle.disabled = !isEnabled;
     barrierControlGroup?.classList.toggle('disabled', !isEnabled);
@@ -13,6 +56,10 @@ autoModeToggle.addEventListener('change', () => {
     const isAuto = autoModeToggle.checked;
     fetch('/setAutoMode?auto=' + (isAuto ? '1' : '0'));
     setBarrierControlEnabled(!isAuto);
+    if(ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: 'Mode', mode: isAuto ? 'AUTO' : 'MANUAL' }));
+        console.log('sent mode change to circuit via websocket');
+    }
 });
 
 barrierToggle.addEventListener('change', () => {
@@ -22,6 +69,11 @@ barrierToggle.addEventListener('change', () => {
 
     const isOpen = barrierToggle.checked;
     fetch('/setBarrier?state=' + (isOpen ? 'open' : 'close'));
+
+    if(ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: 'barrier_status', action: isOpen ? 'open' : 'close' }));
+        console.log('sent barrier control command via websocket');
+    }
 });
 
 setInterval(async () => {

@@ -1,6 +1,7 @@
 #include "global.h"
 
 Servo barrierServo;
+bool system_mode = true; // false for normal mode, true for AUTO mode
 
 void initServo() {
   barrierServo.attach(SERVO_PIN);
@@ -18,9 +19,13 @@ void closeBarrier() {
 void servoTask(void *parameter) {
   while (true) {
     if (motionDetected) {
-      closeBarrier();
+      if (system_mode) {
+        closeBarrier();
+      }
     } else {
-      openBarrier();
+      if(system_mode) {
+        openBarrier();
+      }
     }
     vTaskDelay(250 / portTICK_PERIOD_MS); // Check every 250 ms
   }
