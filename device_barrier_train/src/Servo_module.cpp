@@ -37,6 +37,7 @@ void servoTask(void *parameter) {
         }
         digitalWrite(BUZZER_PIN, LOW);   // Shut down all when barrier is opened
         digitalWrite(ALERT_LED_PIN, LOW);
+        sendalertstatus_SAFE(); // Update webserver with safe status
         if (alertTaskHandle != NULL) {
         vTaskSuspend(alertTaskHandle); // Suspend this task until motion is detected again
         }

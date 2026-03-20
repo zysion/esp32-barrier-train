@@ -34,11 +34,11 @@ ws.onmessage = (event) => {
             barrierStatus.className = 'status-badge closed';
         }
     }
-    else if(type === 'trespass') {
-        console.log('Received trespass alert:', data.value);
-        if(data.value === 'trespass') {
-            trespassAlert.textContent = 'Have Trespassers!';
-            trespassAlert.className = 'alert-badge warning';
+    else if(type === 'alert') {
+        console.log('Received alert status:', data.value);
+        if(data.value === 'DANGER') {
+            trespassAlert.textContent = 'Danger!';
+            trespassAlert.className = 'alert-badge danger';
         } else {
             trespassAlert.textContent = 'Safe';
             trespassAlert.className = 'alert-badge safe';

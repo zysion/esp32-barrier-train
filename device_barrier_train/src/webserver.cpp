@@ -37,6 +37,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
                         if (strcmp(action, "open") == 0) {
                             if (!isopenbarrier) {
                                 openBarrier();
+                                sendalertstatus_SAFE(); // Update webserver with safe status when barrier is opened
                             }
                             Serial.println("Barrier opened via webserver");
                         } else if (strcmp(action, "close") == 0) {
@@ -104,6 +105,7 @@ void sendalertstatus_SAFE() {
 void sendalertstatus_DANGER() {
     ws.textAll("{\"type\":\"alert\",\"value\":\"DANGER\"}");
 }
+
 
 void runWebServer(void *parameter) {
     connectwebserver();

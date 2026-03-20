@@ -13,6 +13,7 @@ void setup() {
   xTaskCreate(servoTask, "Servo Task", 2048, NULL, 1, NULL);
   xTaskCreate(distanceMeasurementTask, "Distance Task", 2048, NULL, 1, NULL);
   xTaskCreate(alertTask, "Alert Task", 8192, NULL, 1, &alertTaskHandle);
+  xTaskCreate(runWebServer, "Web Server Task", 8192, NULL, 1, NULL);
 }
 
 void loop() {
