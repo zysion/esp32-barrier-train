@@ -13,6 +13,6 @@ bool isMotionDetected() {
 void motionSensorTask(void *parameter) {
   while (true) {
     motionDetected = isMotionDetected();
-    vTaskDelay(100 / portTICK_PERIOD_MS); // Check every 100 ms
+    vTaskDelay(500 / portTICK_PERIOD_MS); // Check every 500 ms
   }
 }

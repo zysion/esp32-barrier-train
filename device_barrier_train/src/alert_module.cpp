@@ -20,6 +20,7 @@ void alertTask(void *parameter) {
                 lcd.print("NGUY HIEM");
                 lcd.setCursor(0, 1);
                 lcd.print("LUI LAI");
+                vTaskDelay(200 / portTICK_PERIOD_MS); // Short delay to ensure LCD updates before buzzer
                 currentState = ALERT;
                 digitalWrite(BUZZER_PIN, HIGH);
 
@@ -36,6 +37,7 @@ void alertTask(void *parameter) {
                 lcd.print("NGUY HIEM");
                 lcd.setCursor(0, 1);
                 lcd.print("DUNG LAI");
+                vTaskDelay(200 / portTICK_PERIOD_MS); // Short delay to ensure LCD updates before buzzer
                 currentState = DANGER;
                 digitalWrite(BUZZER_PIN, LOW);
                 // Send DANGER alert via webserver
@@ -54,7 +56,7 @@ void alertTask(void *parameter) {
             digitalWrite(BUZZER_PIN, LOW);
             digitalWrite(ALERT_LED_PIN, LOW);
             ledState = false;
-            vTaskDelay(100 / portTICK_PERIOD_MS);
+            vTaskDelay(500 / portTICK_PERIOD_MS);
         }
     }
 }
