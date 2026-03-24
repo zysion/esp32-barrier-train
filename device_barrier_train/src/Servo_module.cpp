@@ -20,26 +20,27 @@ void closeBarrier() {
 }
 
 void servoTask(void *parameter) {
+  uint32_t lastMotionTime = 0;
+  bool waitingToOpen = false;
+
   while (true) {
     if(AUTO_mode) { // Only operate in AUTO mode
       if (motionDetected) {
-        vTaskDelay(3000 / portTICK_PERIOD_MS);
-
+        waitingToOpen = false;
         if (isopenbarrier) {
             closeBarrier();
         }
-        if (alertTaskHandle != NULL) {
-          vTaskResume(alertTaskHandle); // Resume alert task when motion is detected
-        }
       } else {
         if (!isopenbarrier) {
-            openBarrier();
-        }
-        digitalWrite(BUZZER_PIN, LOW);   // Shut down all when barrier is opened
-        digitalWrite(ALERT_LED_PIN, LOW);
-        sendalertstatus_SAFE(); // Update webserver with safe status
-        if (alertTaskHandle != NULL) {
-        vTaskSuspend(alertTaskHandle); // Suspend this task until motion is detected again
+            if (!waitingToOpen) {
+                lastMotionTime = millis();
+                waitingToOpen = true;
+            } else if (millis() - lastMotionTime >= 2000) {
+                openBarrier();
+                waitingToOpen = false;
+            }
+        } else {
+            waitingToOpen = false;
         }
       }
     }

@@ -31,8 +31,8 @@ extern volatile float distance;
 #define ECHO_PIN 42
 
 // Alert & Buzzer
-#define ALERT_LED_PIN 38
-#define BUZZER_PIN 39
+#define ALERT_LED_PIN 15
+#define BUZZER_PIN 17
 #define UNKNOWN -1 
 #define SAFE 0 // asian pro max
 #define DANGER 1 // 5 - 10
@@ -51,8 +51,6 @@ extern Servo barrierServo;
 extern volatile bool AUTO_mode; // false for manual, true for auto
 
 //-------------------------------------------------------------------------
-
-extern bool system_mode;
 
 //include module
 #include "motion_sensor_module.h"
