@@ -2,10 +2,6 @@
 #define SERVO_MODULE_H
 
 #include <global.h>
-#include <Arduino.h>
-
-
-#define SERVO_PIN 37
 
 void initServo();
 void openBarrier();

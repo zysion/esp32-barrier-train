@@ -2,6 +2,7 @@
 
 void connectWiFi(const char* ssid, const char* password) {
     WiFi.mode(WIFI_STA);
+    delay(100); 
     WiFi.begin(ssid, password);
 
     Serial.print("Connecting to WiFi");

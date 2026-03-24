@@ -17,8 +17,9 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
         {
             AwsFrameInfo *info = (AwsFrameInfo*)arg;
             if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
-                data[len] = 0; // Null-terminate the incoming message
-                Serial.printf("Received from client %u: %s\n", client->id(), (char*)data);
+                Serial.printf("Received from client %u: ", client->id());
+                for(size_t i=0; i<len; i++) { Serial.print((char)data[i]); }
+                Serial.println();
                 JsonDocument doc;
                 DeserializationError error = deserializeJson(doc, data);
                 if (!error) {
@@ -26,19 +27,24 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
                     if (strcmp(command, "Mode") == 0) {
                         const char* mode = doc["mode"];
                         if (strcmp(mode, "AUTO") == 0) {
-                            system_mode = true;
+                            AUTO_mode = true;
                             Serial.println("Switched to AUTO mode");
                         } else if (strcmp(mode, "MANUAL") == 0) {
-                            system_mode = false;
+                            AUTO_mode = false;
                             Serial.println("Switched to MANUAL mode");
                         }
                     } else if (strcmp(command, "barrier_status") == 0) {
                         const char* action = doc["action"];
                         if (strcmp(action, "open") == 0) {
-                            openBarrier();
+                            if (!isopenbarrier) {
+                                openBarrier();
+                                sendalertstatus_SAFE(); // Update webserver with safe status when barrier is opened
+                            }
                             Serial.println("Barrier opened via webserver");
                         } else if (strcmp(action, "close") == 0) {
-                            closeBarrier();
+                            if (isopenbarrier) {
+                                closeBarrier();
+                            }
                             Serial.println("Barrier closed via webserver");
                         }
                     }
@@ -58,7 +64,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 }
 
 void connectwebserver() {
-  if (!LittleFS.begin(true)) {
+    if (!LittleFS.begin(true)) {
         Serial.println("LittleFS mount failed");
         return;
     }
@@ -78,8 +84,17 @@ void connectwebserver() {
         request->send(LittleFS, "/script.js", "application/javascript");
     });
     
-    server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request) {
-        request->send(LittleFS, "/styles.css", "text/css");
+    server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(LittleFS, "/style.css", "text/css");
+    });
+    
+    server.on("/status", HTTP_GET, [](AsyncWebServerRequest *request) {
+        String json = "{";
+        json += "\"autoMode\":" + String(AUTO_mode ? "true" : "false") + ",";
+        json += "\"barrierOpen\":" + String(isopenbarrier ? "true" : "false") + ",";
+        json += "\"trespassing\":" + String(motionDetected ? "true" : "false"); 
+        json += "}";
+        request->send(200, "application/json", json);
     });
     
     server.begin();
@@ -89,20 +104,24 @@ void connectwebserver() {
 
 
 void sendbarrierstatus() {
-    String status = motionDetected ? "Closed" : "Open";
-    ws.textAll("{\"type\":\"barrierstatus\",\"status\":\"" + status + "\"}");
+    String status = isopenbarrier ? "open" : "close";
+    ws.textAll("{\"type\":\"barrierstatus\",\"value\":\"" + status + "\"}");
 }
 
-void sendtrespassingalert() {
-    ws.textAll("{\"type\":\"trespass\",\"value\":\"trespass\"}");
+void sendalertstatus_SAFE() {
+    ws.textAll("{\"type\":\"alert\",\"value\":\"SAFE\"}");
 }
+
+void sendalertstatus_DANGER() {
+    ws.textAll("{\"type\":\"alert\",\"value\":\"DANGER\"}");
+}
+
 
 void runWebServer(void *parameter) {
     connectwebserver();
     while (true) {
         ws.cleanupClients();
         sendbarrierstatus();
-        sendtrespassingalert();
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
