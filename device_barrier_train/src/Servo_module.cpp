@@ -23,7 +23,7 @@ void servoTask(void *parameter) {
   while (true) {
     if(AUTO_mode) { // Only operate in AUTO mode
       if (motionDetected) {
-        vTaskDelay(3000 / portTICK_PERIOD_MS);
+        vTaskDelay(2000 / portTICK_PERIOD_MS);
 
         if (isopenbarrier) {
             closeBarrier();
@@ -39,7 +39,7 @@ void servoTask(void *parameter) {
         digitalWrite(ALERT_LED_PIN, LOW);
         sendalertstatus_SAFE(); // Update webserver with safe status
         if (alertTaskHandle != NULL) {
-        vTaskSuspend(alertTaskHandle); // Suspend this task until motion is detected again
+          vTaskSuspend(alertTaskHandle); // Suspend this task until motion is detected again
         }
       }
     }

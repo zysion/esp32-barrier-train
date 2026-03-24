@@ -17,8 +17,8 @@
 // Define global variables and constants here
 
 // define WiFi credentials
-#define SSID "TECNO POVA 6"
-#define PASSWORD "zysion123"
+#define SSID "1417 5G"
+#define PASSWORD "080305@@"
 
 // motion sensor
 extern volatile bool motionDetected;
