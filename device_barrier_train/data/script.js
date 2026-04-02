@@ -38,7 +38,8 @@ ws.onmessage = (event) => {
         console.log('Received alert status:', data.value);
         if(data.value === 'DANGER') {
             trespassAlert.textContent = 'Danger!';
-            trespassAlert.className = 'alert-badge danger';
+            // Used warning class since danger class does not exist in style.css
+            trespassAlert.className = 'alert-badge warning';
         } else {
             trespassAlert.textContent = 'Safe';
             trespassAlert.className = 'alert-badge safe';
@@ -100,14 +101,6 @@ setInterval(async () => {
         } else {
             barrierStatus.textContent = 'Closed';
             barrierStatus.className = 'status-badge closed';
-        }
-
-        if (data.trespassing) {
-            trespassAlert.textContent = 'Have Trespassers!';
-            trespassAlert.className = 'alert-badge warning';
-        } else {
-            trespassAlert.textContent = 'Safe';
-            trespassAlert.className = 'alert-badge safe';
         }
     } catch (e) {
         console.error('Error fetching data:', e);

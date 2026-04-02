@@ -13,7 +13,19 @@ void alertTask(void *parameter) {
     int currentState = UNKNOWN;  
 
     while (true) {
-        if (distance < 5.0f) {
+        if (isopenbarrier) {
+            if (currentState != SAFE) {
+                lcd.clear();
+                digitalWrite(BUZZER_PIN, LOW);
+                digitalWrite(ALERT_LED_PIN, LOW);
+                sendalertstatus_SAFE();
+                currentState = SAFE;
+            }
+            vTaskDelay(100 / portTICK_PERIOD_MS);
+            continue;
+        }
+
+        if (distance < 5.0f && distance >= 0.0f) {
             if (currentState != ALERT) {
                 lcd.clear();
                 lcd.setCursor(0, 0);
